@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Summergram</title>
+    <style>
+        .banner {
+            background-color: #ffcc00;
+            padding: 20px;
+            text-align: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 999;
+        }
+    
+        .banner h1 {
+            color: white;
+            font-size: 40px;
+        }
+    
+        #content {
+            padding-top: 100px; /* Adjust this value to leave space for the banner */
+            text-align: center;
+        }
+    </style>
+
+    <!-- Firebase App (the core Firebase SDK) is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+
+    <!-- If you enabled Analytics in your project, add the Firebase SDK for Analytics -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-analytics-compat.js"></script>
+
+    <!-- Add Firebase Realtime Database -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
+
+    <script>
+        // Your web app's Firebase configuration
+        var firebaseConfig = {
+            apiKey: "AIzaSyDhplW7i2E8plWneWhjP7ui5bTsgncj1gg",
+            authDomain: "profileapp-d6d49.firebaseapp.com",
+            databaseURL: "https://profileapp-d6d49-default-rtdb.firebaseio.com",
+            projectId: "profileapp-d6d49",
+            storageBucket: "profileapp-d6d49.appspot.com",
+            messagingSenderId: "223159841422",
+            appId: "1:223159841422:web:d71a71545b70f034b38fdf",
+            measurementId: "G-4KJCT5W4J0"
+        };
+
+        // Initialize Firebase
+        var app = firebase.initializeApp(firebaseConfig);
+        var analytics = firebase.analytics();
+        var database = firebase.database();
+
+        // Function to create and display a table
+        function displayTable() {
+            // Create a table
+            var table = document.createElement('table');
+            table.style.width = '100%';
+            table.setAttribute('border', '1');
+
+            // Create table headers
+            var thead = document.createElement('thead');
+            var headerRow = document.createElement('tr');
+            ['Name', 'Image', 'Age', 'Pronouns', 'Bio'].forEach(text => {
+                var th = document.createElement('th');
+                th.appendChild(document.createTextNode(text));
+                headerRow.appendChild(th);
+            });
+            thead.appendChild(headerRow);
+            table.appendChild(thead);
+
+            // Append the table to the content div
+            document.getElementById('content').appendChild(table);
+
+        // Get data from Firebase
+        var ref = database.ref('/');
+        ref.on('value', function(snapshot) {
+            var data = snapshot.val();
+
+            // Convert the data to an array of users
+            var users = Object.keys(data).map(key => data[key]);
+
+            // Add data to table
+            var tbody = document.createElement('tbody');
+            users.forEach(user => {
+                // Check if the user has the expected structure
+                if (user.name && user.image && user.age && user.pronouns && user.bio) {
+                    var row = document.createElement('tr');
+                    [user.name, user.image, user.age, user.pronouns, user.bio].forEach((text, index) => {
+                        var td = document.createElement('td');
+                        if (index === 1) { // If the text is an image URL
+                            var img = document.createElement('img');
+                            img.src = text;
+                            img.style.width = '100px'; // Adjust as needed
+                            img.style.height = '100px'; // Adjust as needed
+                            td.appendChild(img);
+                        } else {
+                            td.appendChild(document.createTextNode(text));
+                        }
+                        row.appendChild(td);
+                    });
+                    tbody.appendChild(row);
+                }
+            });
+            table.appendChild(tbody);
+        });
+    }
+
+        // Call the function to display the table
+        window.onload = function() {
+            displayTable();
+        };
+    </script>
+
+</head>
+<body>
+    <div class="banner">
+        <h1>Summergram</h1>
+    </div>
+    <div id="content">
+        <p>This is some filler text.</p>
+    </div>
+</body>
+</html>
