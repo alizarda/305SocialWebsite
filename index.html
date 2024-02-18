@@ -20,10 +20,11 @@
         }
     
         #content {
-            padding-top: 100px; /* Adjust this value to leave space for the banner */
+            margin-top: 20px; /* Adjust this value to the height of the banner */
             text-align: center;
         }
     </style>
+
 
     <!-- Firebase App (the core Firebase SDK) is always required and must be listed first -->
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
@@ -85,15 +86,15 @@
             var tbody = document.createElement('tbody');
             users.forEach(user => {
                 // Check if the user has the expected structure
-                if (user.name && user.image && user.age && user.pronouns && user.bio) {
+                if (user.name) {
                     var row = document.createElement('tr');
                     [user.name, user.image, user.age, user.pronouns, user.bio].forEach((text, index) => {
                         var td = document.createElement('td');
-                        if (index === 1) { // If the text is an image URL
+                        if (index === 1) { 
                             var img = document.createElement('img');
                             img.src = text;
-                            img.style.width = '100px'; // Adjust as needed
-                            img.style.height = '100px'; // Adjust as needed
+                            img.style.width = '100px';
+                            img.style.height = '100px'; 
                             td.appendChild(img);
                         } else {
                             td.appendChild(document.createTextNode(text));
@@ -116,10 +117,11 @@
 </head>
 <body>
     <div class="banner">
-        <h1>Summergram</h1>
+        <img src="https://i.imgur.com/sP74eYc.png" alt="Summergram" style="height: 60px;">
     </div>
-    <div id="content">
-        <p>This is some filler text.</p>
+    <div id="main-content" style="padding-top: 80px;">
+        <div id="content">
+            <p>Profile App.</p>
+            <iframe src="https://thunkable.site/w/GWP54TvW-t4wUk7tWKopS" title="Social Media Thunkable App" height="700" width="450"></iframe>
+        </div>
     </div>
-</body>
-</html>
